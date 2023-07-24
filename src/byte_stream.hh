@@ -12,6 +12,11 @@ class ByteStream
 {
 protected:
   uint64_t capacity_;
+  std::deque<char> bytes_;//store byte stream
+  uint64_t written_count_;// all of stream that pushed into byteStream
+  uint64_t read_count_;
+  bool end_;
+  bool err_state_;//state for error
   // Please add any additional state to the ByteStream here, and not to the Writer and Reader interfaces.
 
 public:
