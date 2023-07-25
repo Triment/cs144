@@ -2,15 +2,15 @@
 
 #include "byte_stream.hh"
 
-#include <string>
-#include <map>
+#include <set>
 
 class Reassembler
 {
 
 protected:
-  uint64_t unpoped_index_ = 0;
-  std::map<uint64_t, string> buffers_ = {};
+  std::set<std::pair<uint64_t, char>> buffers_ {};
+  uint64_t last_index_{0};
+  bool discovered_last_sub_string{false};
 public:
   /*
    * Insert a new substring to be reassembled into a ByteStream.
@@ -33,7 +33,16 @@ public:
    * The Reassembler should close the stream after writing the last byte.
    */
   void insert( uint64_t first_index, std::string data, bool is_last_substring, Writer& output );
-
+  // void check_buffer(Writer& output);
   // How many bytes are stored in the Reassembler itself?
   uint64_t bytes_pending() const;
+
+  static bool under_unpopped(Writer& output, uint64_t index, string data);//
+  static bool under_unacceptable(Writer& output, uint64_t index, string data);
+  static bool beyond_unpopped(Writer& output, uint64_t index, string data);
+  static bool beyond_unacceptable(Writer& output, uint64_t index, string data);//
+
+  bool at_unpopped(Writer& output, uint64_t index, string data);
+
+  void traverse_buffers(Writer& output);
 };
