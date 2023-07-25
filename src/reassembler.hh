@@ -3,9 +3,14 @@
 #include "byte_stream.hh"
 
 #include <string>
+#include <map>
 
 class Reassembler
 {
+
+protected:
+  uint64_t unpoped_index_ = 0;
+  std::map<uint64_t, string> buffers_ = {};
 public:
   /*
    * Insert a new substring to be reassembled into a ByteStream.
