@@ -19,18 +19,18 @@ void Writer::push( string data )
   if(end_ || available_capacity() <= 0){
     return;
   }
-  auto push_str = data.substr(0, available_capacity());
-  for (auto x:push_str){
-    bytes_.push_back(x);
-  }//write to stream
-  written_count_ += push_str.size();//increment pushed_size_
+  auto len = min(available_capacity(), data.size()); 
+  for (uint64_t i = 0; i < len; i++)
+  {
+    bytes_.push_back(data[i]);
+  }
+  written_count_ += len;//increment pushed_size_
 }
 
 void Writer::close()
 {
   // Your code here.
   end_ = true;
-  
 }
 
 void Writer::set_error()
